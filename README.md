@@ -1,0 +1,69 @@
+# TravelBuddy
+
+Prototipo de aplicación de escritorio (HTML, CSS y JS puro, sin dependencias).
+
+## Subir a GitHub Pages
+1. Crea un repositorio nuevo en GitHub (por ejemplo `travelbuddy`).
+2. Sube el contenido de esta carpeta (`index.html`, `css/`, `js/`, `assets/`, `README.md`) a la rama `main`.
+3. En el repositorio: **Settings → Pages → Build and deployment**. En *Source* elige **Deploy from a branch**, rama `main`, carpeta `/ (root)`, y pulsa **Save**.
+4. En 1-2 minutos estará en `https://TU-USUARIO.github.io/travelbuddy/`.
+
+## Vuelos de la demo (ficticios)
+- **TB1234** · Madrid (MAD) → París (CDG) · Airbus A320-200
+- **TB2026** · Barcelona (BCN) → Lisboa (LIS) · Boeing 737-800
+
+Se aceptan mayúsculas, minúsculas y espacios (`tb 1234`).
+
+## Qué incluye
+- Registro e inicio de sesión simulados (`localStorage`). No uses contraseñas reales.
+- Tutorial que ilumina cada opción del menú. Se repite desde Perfil.
+- Mi viaje: ficha del vuelo, detalles de la aeronave, seguimiento familiar e itinerario (sitios, comida y actividades).
+- Mapa (dentro de un móvil): plano 2D estilo Google Maps (búsqueda, filtros, zoom, ruta azul) y vista 3D estilo Street View con flechas guía. Ambos se abren a pantalla completa con el botón ⤢, dentro del móvil: aviso de documentación, tarjeta de puerta, minimapa, zoom, servicios cerca de ti y pestañas inferiores (se cierra con ‹ o Esc). Incluye avisos de documentación, distancia y tiempo a la puerta.
+- Guía: progreso del viaje, lista de preparación que se guarda, pasos en el aeropuerto, cómo llegar al hotel, sitios del destino, datos prácticos y requisitos.
+- Social: estadísticas, logros con progreso, foro con filtros por categoría y mapamundi que se colorea.
+- Perfil público: estadísticas, título de viajero, mapamundi, logros (solo aquí) y tus últimas preguntas del foro. Según los logros completados obtienes un título (Viajero novato, Explorador, Viajero curtido, Trotamundos, Leyenda TravelBuddy) que se muestra junto a tu nombre en el foro.
+- Configuración (icono ⚙ de la cabecera): accesibilidad funcional con tres modos (sencillo: texto grande, más contraste, menos opciones y pasos guiados; normal; avanzado: más datos y atajos de teclado), interruptor para activar o desactivar el chatbot Buddy, y tema y vista.
+
+- Vista móvil: el botón 📱 de la cabecera muestra toda la app dentro de un móvil (iconos vectoriales, barra inferior con indicador, cabecera con el título de cada pantalla, logros en filas compactas y carruseles táctiles). El botón 🖥 vuelve a la vista de PC y la elección se recuerda.
+- Buddy, el chatbot (esquina inferior derecha, presentado en el tutorial): responde sobre normas, destinos (París y Lisboa) y consejos. Funciona con respuestas predefinidas, sin servidor. Para ampliarlo, edita la lista `KB` en `js/main.js`.
+
+- Inicio: muestra "Tu próximo viaje empieza aquí" mientras no haya vuelo registrado; al escribir un número de vuelo en Mi viaje pasa a "Tu próximo vuelo". El vuelo se guarda por usuario. Con un vuelo registrado el buscador desaparece y el botón "Quitar vuelo" queda al final de Mi viaje, bajo el seguimiento y el itinerario.
+
+- Móvil real: si se abre desde un móvil, la web arranca directamente en la versión móvil, a pantalla completa y sin marco (respeta la zona segura de iPhone). Incluye `manifest.webmanifest` e iconos para poder añadirla a la pantalla de inicio como app.
+
+- Mi viaje: al registrar un vuelo se oculta el buscador y el botón "Quitar vuelo" queda al final, debajo del seguimiento y el itinerario; al quitarlo vuelve el buscador.
+
+## Foro compartido entre usuarios (opcional)
+Por defecto el foro funciona **solo en cada dispositivo**. Para que varias personas se vean entre sí hace falta un servidor; GitHub Pages es estático y no lo tiene. La web usa **Firebase Realtime Database** (plan gratuito, sin SDK ni compilación):
+1. En https://console.firebase.google.com crea un proyecto (sin Analytics) y añade **Realtime Database** (elige región de Europa).
+2. En la pestaña **Reglas** pega `{ "rules": { ".read": true, ".write": true } }` y publica. Son reglas abiertas, válidas solo para una demo: cualquiera con la URL puede leer y escribir.
+3. Copia la URL de la base de datos (acaba en `firebasedatabase.app`) en `js/config.js`, en `firebaseUrl`. Cambia también `adminCode`.
+4. Sube los cambios a GitHub. Al abrir el foro verás "🟢 Foro compartido en línea".
+
+Lo que escribe cada persona (posts y respuestas) aparece a las demás en unos 5 segundos. Los posts de ejemplo siempre están y también se pueden responder.
+
+## Borrar datos y dejar el foro limpio
+- **Un post propio**: icono 🗑 con confirmación. Sin respuestas desaparece; con respuestas queda como "Este post ha sido eliminado".
+- **Tu cuenta**: Configuración → Mis datos → Eliminar mi cuenta. **Todos los datos de este dispositivo**: Borrar todos los datos del dispositivo (o limpiar los datos del sitio en el navegador). Las cuentas viven solo en el navegador de cada persona.
+- **Dejar el foro limpio tras la prueba**: Configuración → Herramientas de demostración → Limpiar foro (pide el `adminCode`); o, en Firebase, borra el nodo `forum` de la base de datos. Los posts de ejemplo se conservan. Tras la presentación, borra o pausa la base de datos de Firebase.
+
+## Personalizar
+- Vídeos de los tips de la Guía: guarda tus archivos como `assets/videos/seguridad.mp4`, `assets/videos/maleta.mp4` y `assets/videos/hotel.mp4`. Mientras no existan, la web muestra "Vídeo disponible próximamente".
+- Textos de los tips: lista `TIPS` en `js/main.js` (contenido de ejemplo, PROVISIONAL).
+- Foto de la portada: guarda `assets/hero.jpg` y se mostrará sola.
+- Textos provisionales (subrayados con puntos): nombre del equipo; faltan `og:image` y `og:url`.
+- Los datos de vuelos e itinerarios están en `js/flights.js`.
+
+## Mejoras futuras
+Backend y cuentas reales, API de vuelos, fotos 360° reales del interior del aeropuerto, mapamundi con fronteras reales, foro con respuestas, notificaciones a familiares.
+
+## Respuestas eliminables y Comunidad (perfiles públicos)
+
+- **Borrar respuestas:** cada persona puede eliminar sus propias respuestas (icono 🗑 + confirmación). Siempre quedan como «Esta respuesta ha sido eliminada». Las respuestas de ejemplo no se pueden borrar.
+- **Personas registradas (solo administrador):** en *Configuración → Herramientas de demostración*, escribe el código de administrador y pulsa «Ver personas registradas». Verás la lista de cuentas de la demo y, al pulsar una, su perfil: título, mapamundi, estadísticas y logros bloqueados/desbloqueados. Los demás usuarios no pueden ver esta sección. El perfil **no incluye correo ni contraseña**, solo nombre y progreso.
+- **Limpiar demo:** el botón de *Configuración → Herramientas de demostración* (con el código de `js/config.js`) borra posts, respuestas y perfiles públicos y, además, **elimina las cuentas de todas las demás personas** la próxima vez que su navegador se conecte (en unos 5 s si tienen la web abierta). Tu cuenta se conserva.
+- **Eliminar mi cuenta** borra también tu perfil público y tus respuestas.
+- Requiere el foro compartido (Firebase). Sin Firebase solo se ven los perfiles de ese dispositivo y las cuentas de un mismo navegador no se borran entre sí.
+- Es una demo: las reglas abiertas y el código de limpieza no son seguridad real.
+
+- **Perfiles desde el foro:** en el foro, el nombre de cualquier persona real (autores de posts y respuestas) es un enlace a su perfil público (mapamundi, estadísticas y logros). Los usuarios de ejemplo no tienen perfil. La lista completa de personas sigue siendo solo para el administrador.
